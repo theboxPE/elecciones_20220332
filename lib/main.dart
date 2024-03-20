@@ -1,6 +1,10 @@
+import 'package:elecciones_20220332/agregar.dart';
+import 'package:elecciones_20220332/list.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,15 +12,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
+      debugShowCheckedModeBanner: false,
+      title: 'Event Registration',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      // Define las rutas de navegación
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const EventListScreen(),
+        '/add_event': (context) => const AddEventScreen(), // Ruta para la pantalla de la lista de eventos
+        // Puedes agregar más rutas según sea necesario
+      },
     );
   }
 }
+
