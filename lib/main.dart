@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
       // Define las rutas de navegación
       initialRoute: '/',
       routes: {
-        '/': (context) => const EventListScreen(),
-        '/add_event': (context) => const AddEventScreen(), // Ruta para la pantalla de la lista de eventos
+        '/': (context) => const VivenciaListScreen(),
+        '/add_event': (context) => const AddVivenciaScreen(), // Ruta para la pantalla de la lista de eventos
         // Puedes agregar más rutas según sea necesario
       },
     );

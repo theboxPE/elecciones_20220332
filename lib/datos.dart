@@ -1,29 +1,29 @@
+class Vivencia {
+  int? id;
+  String title;
+  DateTime date;
+  String descripcion;
+  String? imagePath;
+  String? audioPath;
 
-class Datos {
-  final int? id;
-  final String title;
-  final String description;
-  final DateTime date;
-  final String? imagePath;
-  final String? audioPath;
-
-  Datos({
-    this.id,
-    required this.title,
-    required this.description,
-    required this.date,
-    this.imagePath,
-    this.audioPath,
+  Vivencia({
+    this.id, 
+    required this.title, 
+    required this.date, 
+    required this.descripcion, 
+    this.imagePath, 
+    this.audioPath
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'title': title,
-      'description': description,
+      'description': descripcion,
       'date': date.toIso8601String(),
       'image_path': imagePath,
-      'audio_path': audioPath,
+      'audio_path': audioPath
     };
   }
+
 }

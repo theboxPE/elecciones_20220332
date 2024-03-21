@@ -4,20 +4,19 @@ import 'package:elecciones_20220332/datos.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-class AddEventScreen extends StatefulWidget {
-  const AddEventScreen({super.key});
+class AddVivenciaScreen extends StatefulWidget {
+  const AddVivenciaScreen({super.key});
 
   @override
-  AddEventScreenState createState() => AddEventScreenState();
+  AddVivenciaScreenState createState() => AddVivenciaScreenState();
 }
 
-class AddEventScreenState extends State<AddEventScreen> {
+class AddVivenciaScreenState extends State<AddVivenciaScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late DateTime _selectedDate;
   File? _imageFile;
-  String? _audioPath;
+  String? _audioPath; // Agregada la variable _audioPath
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class AddEventScreenState extends State<AddEventScreen> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: DateTime(2022),
+      firstDate: DateTime(2010),
       lastDate: DateTime(2100),
     );
     if (picked != null && picked != _selectedDate) {
@@ -58,30 +57,17 @@ class AddEventScreenState extends State<AddEventScreen> {
     }
   }
 
-  Future<void> _recordAudio() async {
-    // Lógica para grabar audio
-    // Puedes usar tu implementación de AudioRecorder o cualquier otra biblioteca de grabación de audio
-    // Aquí se muestra solo como ejemplo:
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickVideo(source: ImageSource.camera);
-    if (pickedFile != null) {
-      setState(() {
-        _audioPath = pickedFile.path;
-      });
-    }
-  }
-
-  Future<void> _insertEvent() async {
+  Future<void> _insertVivencia() async {
   final db = await DatabaseProvider.db.database;
-  final event = Datos(
+  final event = Vivencia(
     title: _titleController.text,
-    description: _descriptionController.text,
+    descripcion: _descriptionController.text,
     date: _selectedDate,
-    imagePath: _imageFile?.path,
+    imagePath: _imageFile!.path,
+    audioPath: _audioPath!
   );
-  await db.insert('events', event.toMap());
+  await db.insert('vivencias', event.toMap());
 }
-
 
   @override
   Widget build(BuildContext context) {
@@ -131,26 +117,9 @@ class AddEventScreenState extends State<AddEventScreen> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
-                _recordAudio(); // Llamar al método para grabar audio
-              },
-              child: const Text('Grabar Audio'),
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
               onPressed: () async {
-                  // Almacena el contexto en una variable
-                await _insertEvent();
-                // Crear un nuevo evento con los datos ingresados
-                Datos newEvent = Datos(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                  date: _selectedDate,
-                  imagePath: _imageFile?.path,
-                  audioPath: _audioPath,
-                );
-                // Devolver el nuevo evento a la pantalla anterior
-                Navigator.pop(context, newEvent); // Utiliza la variable contextReference en lugar de context
+                await _insertVivencia();
+                Navigator.pop(context); // Vuelve a la pantalla anterior
               },
               child: const Text('Agregar Evento'),
             ),

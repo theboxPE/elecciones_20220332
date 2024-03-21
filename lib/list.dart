@@ -1,38 +1,38 @@
 import 'dart:io';
-import 'package:elecciones_20220332/agregar.dart';
 import 'package:elecciones_20220332/db.dart';
-import 'package:elecciones_20220332/details.dart';
-import 'package:elecciones_20220332/datos.dart';
 import 'package:flutter/material.dart';
+import 'agregar.dart';
+import 'details.dart';
+import 'datos.dart';
 
-
-class EventListScreen extends StatefulWidget {
-  const EventListScreen({super.key});
+class VivenciaListScreen extends StatefulWidget {
+  const VivenciaListScreen({super.key});
 
   @override
-  EventListScreenState createState() => EventListScreenState();
+  VivenciaListScreenState createState() => VivenciaListScreenState();
 }
 
-class EventListScreenState extends State<EventListScreen> {
-  List<Datos> events = []; // Lista de eventos
+class VivenciaListScreenState extends State<VivenciaListScreen> {
+  List<Vivencia> vivencias = []; // Lista de datos
 
   @override
   void initState() {
     super.initState();
-    _loadEvents(); // Llama a la función _loadEvents() al inicializar la pantalla
+    _loadDatos(); // Llama a la función _loadDatos() al inicializar la pantalla
   }
 
-  Future<void> _loadEvents() async {
+  Future<void> _loadDatos() async {
     final db = await DatabaseProvider.db.database;
-    final List<Map<String, dynamic>> maps = await db.query('events');
+    final List<Map<String, dynamic>> maps = await db.query('vivencia');
     setState(() {
-      events = List.generate(maps.length, (i) {
-        return Datos(
+      vivencias = List.generate(maps.length, (i) {
+        return Vivencia(
           id: maps[i]['id'],
           title: maps[i]['title'],
-          description: maps[i]['description'],
+          descripcion: maps[i]['description'],
           date: DateTime.parse(maps[i]['date']),
-          imagePath: maps[i]['image_path'],
+          imagePath: maps[i]['imagePath'],
+          audioPath: maps[i]['audioPath'], // Agregar audioPath
         );
       });
     });
@@ -42,32 +42,32 @@ class EventListScreenState extends State<EventListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Eventos'),
+        title: const Text('Vivencias'),
       ),
       body: ListView.builder(
-        itemCount: events.length,
+        itemCount: vivencias.length,
         itemBuilder: (context, index) {
-          final event = events[index];
+          final vivencia = vivencias[index];
           return ListTile(
             onTap: () {
               // Navega a la pantalla de detalles del evento cuando se hace clic en un elemento de la lista
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EventDetailsScreen(datos: event),
+                  builder: (context) => VivenciaDetailsScreen(vivencia: vivencia),
                 ),
               );
             },
-            leading: event.imagePath != null
+            leading: vivencia.imagePath != null
                 ? CircleAvatar(
-                    backgroundImage: FileImage(File(event.imagePath!)),
+                    backgroundImage: FileImage(File(vivencia.imagePath!)),
                   )
                 : const CircleAvatar(
                     child: Icon(Icons.event),
                   ),
-            title: Text(event.title),
+            title: Text(vivencia.title),
             subtitle: Text(
-              '${event.description}\n${event.date.toString()}',
+              '${vivencia.descripcion}\n${vivencia.date.toString()}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -78,11 +78,11 @@ class EventListScreenState extends State<EventListScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddEventScreen()),
-          ).then((newEvent) {
-            if (newEvent != null) {
+            MaterialPageRoute(builder: (context) => const AddVivenciaScreen()),
+          ).then((newDato) {
+            if (newDato != null) {
               setState(() {
-                events.add(newEvent);
+                vivencias.add(newDato);
               });
             }
           });

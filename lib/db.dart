@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,10 +20,11 @@ class DatabaseProvider {
 
   Future<Database> initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'events.db');
+    String path = join(documentsDirectory.path, 'vivencia.db');
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
+  
   void _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE events(
@@ -33,7 +33,7 @@ class DatabaseProvider {
         description TEXT,
         date TEXT,
         image_path TEXT,
-        audio_path TEXT , 
+        audioPath TEXT
       )
     ''');
   }
