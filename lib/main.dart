@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const VivenciaListScreen(),
-        '/add_event': (context) => const AddVivenciaScreen(), // Ruta para la pantalla de la lista de eventos
+        '/add_vivencia': (context) => const AddVivenciaScreen(), // Ruta para la pantalla de la lista de eventos
         // Puedes agregar más rutas según sea necesario
       },
     );
