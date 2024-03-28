@@ -1,5 +1,4 @@
 import 'package:elecciones_20220332/acercade.dart';
-import 'package:elecciones_20220332/agregar.dart';
 import 'package:elecciones_20220332/list.dart';
 import 'package:flutter/material.dart' show AssetImage, BuildContext, CircleAvatar, Colors, Column, Drawer, EdgeInsets, FontWeight, Icon, Icons, ListTile, MaterialPageRoute, Navigator, Padding, SizedBox, StatelessWidget, Text, TextStyle, Widget;
 
@@ -28,7 +27,7 @@ class Navbar extends StatelessWidget {
             ),
             const SizedBox(height: 30.0),
             ListTile(
-              leading: const Icon(Icons.business_center),
+              leading: const Icon(Icons.add),
               title: const Text('Vivencias'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -36,15 +35,7 @@ class Navbar extends StatelessWidget {
                 ));
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.business_center),
-              title: const Text('Vivencias'),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AddVivenciaScreen(),
-                ));
-              },
-            ),
+            
             ListTile(
               leading: const Icon(Icons.business_center),
               title: const Text('Acerca de'),
