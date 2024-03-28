@@ -3,6 +3,7 @@ import 'package:elecciones_20220332/db.dart';
 import 'package:elecciones_20220332/datos.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart'; 
 
 class AddVivenciaScreen extends StatefulWidget {
   const AddVivenciaScreen({super.key});
@@ -16,7 +17,7 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
   late TextEditingController _descriptionController;
   late DateTime _selectedDate;
   File? _imageFile;
-  String? _audioPath; // Agregada la variable _audioPath
+  File? _audioFile;
 
   @override
   void initState() {
@@ -57,17 +58,48 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
     }
   }
 
-  Future<void> _insertVivencia() async {
-  final db = await DatabaseProvider.db.database;
-  final event = Vivencia(
-    title: _titleController.text,
-    descripcion: _descriptionController.text,
-    date: _selectedDate,
-    imagePath: _imageFile!.path,
-    audioPath: _audioPath!
+  Future<void> _selectAudio(BuildContext context) async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.audio,
+    allowMultiple: false,
   );
-  await db.insert('vivencias', event.toMap());
+
+  if (result != null) {
+    setState(() {
+      _audioFile = File(result.files.single.path!);
+    });
+  }
 }
+
+  Future<void> _insertVivencia() async {
+    final db = await DatabaseProvider.db.database;
+    if (_imageFile != null && _audioFile != null) {
+      final event = Vivencia(
+        title: _titleController.text,
+        descripcion: _descriptionController.text,
+        date: _selectedDate,
+        imagePath: _imageFile!.path,
+        audioPath: _audioFile!.path,
+      );
+      await db.insert('vivencias', event.toMap());
+      await db.close(); // Cerrar la base de datos
+    } else {
+      // Manejar el caso en el que la imagen o el audio son nulos
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Por favor, seleccione una imagen y un archivo de audio.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +146,16 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
                 _selectImage(context);
               },
               child: const Text('Agregar Foto'),
+            ),
+            const SizedBox(height: 16.0),
+            _audioFile != null
+                ? Text('Audio seleccionado: ${_audioFile!.path}')
+                : const SizedBox(),
+            ElevatedButton(
+              onPressed: () {
+                _selectAudio(context);
+              },
+              child: const Text('Agregar Audio'),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
