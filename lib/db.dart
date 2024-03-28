@@ -27,7 +27,7 @@ class DatabaseProvider {
   
   void _createDB(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE events(
+      CREATE TABLE vivencias(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         description TEXT,

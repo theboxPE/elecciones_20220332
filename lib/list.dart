@@ -23,7 +23,7 @@ class VivenciaListScreenState extends State<VivenciaListScreen> {
 
   Future<void> _loadDatos() async {
     final db = await DatabaseProvider.db.database;
-    final List<Map<String, dynamic>> maps = await db.query('vivencia');
+    final List<Map<String, dynamic>> maps = await db.query('vivencias');
     setState(() {
       vivencias = List.generate(maps.length, (i) {
         return Vivencia(
