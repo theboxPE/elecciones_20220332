@@ -33,7 +33,7 @@ class DatabaseProvider {
         description TEXT,
         date TEXT,
         image_path TEXT,
-        audioPath TEXT
+        audio_Path TEXT
       )
     ''');
   }

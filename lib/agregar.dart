@@ -71,16 +71,16 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
     }
   }
 
-  Future<void> _insertVivencia() async {
-  final db = await DatabaseProvider.db.database;
-  final event = Vivencia(
-    title: _titleController.text,
-    descripcion: _descriptionController.text,
-    date: _selectedDate,
-    imagePath: _imageFile?.path,
-    audioPath: _audioFile!.path
-  );
-  await db.insert('vivencias', event.toMap());
+  Future<void> _insertVivencia(BuildContext context) async {
+    final db = await DatabaseProvider.db.database;
+    final event = Vivencia(
+      title: _titleController.text,
+      descripcion: _descriptionController.text,
+      date: _selectedDate,
+      imagePath: _imageFile?.path,
+      audioPath: _audioFile?.path, // Maneja la posibilidad de que _audioFile sea nulo
+    );
+    await db.insert('vivencias', event.toMap());
   }
 
   @override
@@ -142,18 +142,10 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
-                   // Almacena el contexto en una variable
-                await _insertVivencia();
-                // Crear un nuevo evento con los datos ingresados
-                Vivencia newEvent = Vivencia(
-                  title: _titleController.text,
-                  descripcion: _descriptionController.text,
-                  date: _selectedDate,
-                  imagePath: _imageFile?.path,
-                  audioPath: _audioFile!.path,
-                );
-                // Devolver el nuevo evento a la pantalla anterior
-                Navigator.pop(context, newEvent);  // Vuelve a la pantalla anterior
+                // Almacena el contexto en una variable antes de usarlo
+                await _insertVivencia(context);
+                // Vuelve a la pantalla anterior
+                Navigator.pop(context); 
               },
               child: const Text('Agregar Evento'),
             ),
