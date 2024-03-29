@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:elecciones_20220332/db.dart';
-import 'package:elecciones_20220332/datos.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart'; 
+import 'package:file_picker/file_picker.dart';
+import 'db.dart';
+import 'datos.dart';
 
 class AddVivenciaScreen extends StatefulWidget {
   const AddVivenciaScreen({super.key});
@@ -59,17 +59,17 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
   }
 
   Future<void> _selectAudio(BuildContext context) async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.audio,
-    allowMultiple: false,
-  );
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.audio,
+      allowMultiple: false,
+    );
 
-  if (result != null) {
-    setState(() {
-      _audioFile = File(result.files.single.path!);
-    });
+    if (result != null) {
+      setState(() {
+        _audioFile = File(result.files.single.path!);
+      });
+    }
   }
-}
 
   Future<void> _insertVivencia() async {
     final db = await DatabaseProvider.db.database;

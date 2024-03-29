@@ -18,7 +18,7 @@ class VivenciaListScreenState extends State<VivenciaListScreen> {
   @override
   void initState() {
     super.initState();
-    _loadDatos(); // Llama a la función _loadDatos() al inicializar la pantalla
+    _loadDatos(); 
   }
 
   Future<void> _loadDatos() async {
@@ -50,7 +50,6 @@ class VivenciaListScreenState extends State<VivenciaListScreen> {
           final vivencia = vivencias[index];
           return ListTile(
             onTap: () {
-              // Navega a la pantalla de detalles del evento cuando se hace clic en un elemento de la lista
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -79,10 +78,10 @@ class VivenciaListScreenState extends State<VivenciaListScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddVivenciaScreen()),
-          ).then((newDato) {
-            if (newDato != null) {
+          ).then((newVivencia) {
+            if (newVivencia != null) {
               setState(() {
-                vivencias.add(newDato);
+                vivencias.add(newVivencia);
               });
             }
           });

@@ -35,7 +35,6 @@ class VivenciaDetailsScreen extends StatelessWidget {
               'Fecha: ${vivencia.date.toString()}',
               style: const TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 8),
             if (vivencia.imagePath != null)
               Image.file(
                 File(vivencia.imagePath!),
@@ -44,16 +43,11 @@ class VivenciaDetailsScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             if (vivencia.audioPath != null)
-              Column(
-                children: [
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Reproducir el audio
-                    },
-                    child: const Text('Reproducir Audio'),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: () {
+                  // Implementar la lógica para reproducir el audio
+                },
+                child: const Text('Reproducir Audio'),
               ),
           ],
         ),
