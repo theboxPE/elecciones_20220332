@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget> [
-              Text('Main page'),
+              Text('Saludos, delegados de partidos políticos'),
               SizedBox(height: 20), 
               
             ],

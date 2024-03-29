@@ -44,12 +44,16 @@ class VivenciaDetailsScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             if (vivencia.audioPath != null)
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  // Reproducir el audio
-                },
-                child: const Text('Reproducir Audio'),
+              Column(
+                children: [
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Reproducir el audio
+                    },
+                    child: const Text('Reproducir Audio'),
+                  ),
+                ],
               ),
           ],
         ),
