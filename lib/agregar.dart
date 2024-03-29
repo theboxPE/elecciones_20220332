@@ -72,33 +72,15 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
   }
 
   Future<void> _insertVivencia() async {
-    final db = await DatabaseProvider.db.database;
-    if (_imageFile != null && _audioFile != null) {
-      final event = Vivencia(
-        title: _titleController.text,
-        descripcion: _descriptionController.text,
-        date: _selectedDate,
-        imagePath: _imageFile!.path,
-        audioPath: _audioFile!.path,
-      );
-      await db.insert('vivencias', event.toMap());
-      await db.close(); // Cerrar la base de datos
-    } else {
-      // Manejar el caso en el que la imagen o el audio son nulos
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text('Por favor, seleccione una imagen y un archivo de audio.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
+  final db = await DatabaseProvider.db.database;
+  final event = Vivencia(
+    title: _titleController.text,
+    descripcion: _descriptionController.text,
+    date: _selectedDate,
+    imagePath: _imageFile?.path,
+    audioPath: _audioFile!.path
+  );
+  await db.insert('vivencias', event.toMap());
   }
 
   @override
@@ -160,8 +142,18 @@ class AddVivenciaScreenState extends State<AddVivenciaScreen> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
+                   // Almacena el contexto en una variable
                 await _insertVivencia();
-                Navigator.pop(context); // Vuelve a la pantalla anterior
+                // Crear un nuevo evento con los datos ingresados
+                Vivencia newEvent = Vivencia(
+                  title: _titleController.text,
+                  descripcion: _descriptionController.text,
+                  date: _selectedDate,
+                  imagePath: _imageFile?.path,
+                  audioPath: _audioFile!.path,
+                );
+                // Devolver el nuevo evento a la pantalla anterior
+                Navigator.pop(context, newEvent);  // Vuelve a la pantalla anterior
               },
               child: const Text('Agregar Evento'),
             ),

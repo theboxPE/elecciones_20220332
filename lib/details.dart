@@ -1,11 +1,20 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart'; 
 import 'datos.dart';
 
 class VivenciaDetailsScreen extends StatelessWidget {
   final Vivencia vivencia;
 
   const VivenciaDetailsScreen({super.key, required this.vivencia});
+
+  // Función privada para reproducir el audio
+  void _playAudio() {
+    if (vivencia.audioPath != null) {
+      AudioPlayer audioPlayer = AudioPlayer();
+      audioPlayer.play(vivencia.audioPath! as Source);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +53,7 @@ class VivenciaDetailsScreen extends StatelessWidget {
               ),
             if (vivencia.audioPath != null)
               ElevatedButton(
-                onPressed: () {
-                  // Implementar la lógica para reproducir el audio
-                },
+                onPressed: _playAudio, 
                 child: const Text('Reproducir Audio'),
               ),
           ],
@@ -55,3 +62,6 @@ class VivenciaDetailsScreen extends StatelessWidget {
     );
   }
 }
+
+
+
